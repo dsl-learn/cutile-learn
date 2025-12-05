@@ -1,0 +1,37 @@
+# triton_runner builds
+build/
+build-*/
+
+# Pytest
+pytest.ini
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache
+
+# Environments
+.venv
+venv/
+venv.bak/
+
+# VS Code project files
+.vscode
+.vs
+
+# JetBrains project files
+.idea
+cmake-build-*
+
+# clangd index. (".clangd" is a config file now, thus trailing slash)
+.clangd/
+.cache
+/compile_commands.json
+.vscode
+.vs
+
+# Vim
+*.swp
+
+# macOS
+.DS_Store

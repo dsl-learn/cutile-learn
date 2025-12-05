@@ -9,4 +9,8 @@
 ### [06-attention](./tutorials/06-fused-attention.py)
 
 
+[NVIDIA/cutile-python](https://github.com/NVIDIA/cutile-python)
+
+[NVIDIA/TileGym](https://github.com/NVIDIA/TileGym)
+
 [![THE FUTURE IS TILED: using cuTile and CUDA Tile IR to write portable, high-performance GPU Kernels](https://img.youtube.com/vi/UEdGJGz8Eyg/maxresdefault.jpg)](https://www.youtube.com/watch?v=UEdGJGz8Eyg)

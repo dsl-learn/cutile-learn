@@ -246,45 +246,6 @@ def tile_fmha(
     return o
 
 
-def fmha_interface(
-    q: torch.Tensor,
-    k: torch.Tensor,
-    v: torch.Tensor,
-    is_causal: bool = True,
-    scaling: float = None,
-    has_backward: bool = False,
-    kernel_configs: Optional[Dict[str, Any]] = None,
-    **kwargs,
-) -> torch.Tensor:
-    """
-    Unified interface for Flash Multi-Head Attention (FMHA) operations.
-
-    This is a high-level wrapper around tilegym.ops.fmha dispatch system.
-
-    Args:
-        q: Query tensor
-        k: Key tensor
-        v: Value tensor
-        is_causal: Whether to apply causal masking
-        scaling: Scaling factor for attention scores
-        has_backward: Whether backward pass is needed
-        kernel_configs: Kernel configuration parameters
-        **kwargs: Additional arguments for specific backends
-
-    Returns:
-        Output tensor
-    """
-
-    return tile_fmha(
-        q,
-        k,
-        v,
-        scaling=scaling,
-        is_causal=is_causal,
-        has_backward=has_backward,
-        kernel_configs=kernel_configs,
-    )
-
 def reference_fmha(
     q: torch.Tensor,
     k: torch.Tensor,
@@ -307,7 +268,7 @@ dtype = torch.float16
 q = torch.randn((BATCH, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
 k = torch.randn((BATCH, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
 v = torch.randn((BATCH, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
-cutile_output = fmha_interface(q, k, v)
+cutile_output = tile_fmha(q, k, v)
 torch_output = reference_fmha(q, k, v)
 
 if torch.allclose(cutile_output, torch_output, atol=1e-2, rtol=0):

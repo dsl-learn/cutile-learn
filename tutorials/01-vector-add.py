@@ -61,7 +61,7 @@ def add(x: torch.Tensor, y: torch.Tensor):
     # Choose a power of 2, up to 1024, that is greater than or equal to N.
     # This helps in efficient memory access patterns on the GPU.
     # Handle N=0 gracefully to avoid log2(0) errors.
-    TILE = min(1024, 2 ** math.ceil(math.log2(N)))
+    TILE = min(1024, 2 ** math.ceil(math.log2(N))) if N > 0 else 1
 
     # Calculate the grid dimensions for launching the kernel.
     # `math.ceil(N / TILE)` determines the number of blocks needed to cover

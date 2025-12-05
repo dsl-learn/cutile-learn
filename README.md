@@ -1,4 +1,4 @@
-## [cuTile](https://github.com/NVIDIA/cutile-python) learning
+## cuTile learning
 
 [cuTile documents](https://docs.nvidia.com/cuda/cutile-python) [Tile IR documents](https://docs.nvidia.com/cuda/tile-ir) [PyTorch_Conference_CudaTileIR.pdf](https://static.sched.com/hosted_files/pytorchconference/76/Jared_Roesch_PyTorch_Conference_CudaTileIR_v2.pdf)
 

@@ -199,11 +199,11 @@ for fp8_inputs in [False, True]:
             line_arg="provider",  # Argument name whose value corresponds to a different line in the plot
             # Possible values for `line_arg`
             # Don't compare to cublas for fp8 cases as torch.matmul doesn't support fp8 at the moment.
-            line_vals=["cutile", "triton"] if fp8_inputs else [ref_lib.lower(), "cutile", "triton"],  # Label name for the lines
-            line_names=["cuTile", "Triton"] if fp8_inputs else [ref_lib, "cuTile", "Triton"],  # Line styles
-            styles=[("green", "-"), ("blue", "-"), ("yellow", "-")],
+            line_vals=["cutile", "triton"] if fp8_inputs else ["cutile", "triton", ref_lib.lower()],  # Label name for the lines
+            line_names=["cuTile", "Triton"] if fp8_inputs else ["cuTile", "Triton", ref_lib],  # Line styles
+            styles=[("orange", "-"), ("green", "-"), ("blue", "-")],
             ylabel="TFLOPS",  # Label name for the y-axis
-            plot_name="matmul-performance-5090-" +
+            plot_name="matmul-performance-" +
             ("fp16" if not fp8_inputs else "fp8"),  # Name for the plot, used also as a file name for saving the plot.
             args={"fp8_inputs": fp8_inputs},
         ))

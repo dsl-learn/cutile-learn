@@ -386,5 +386,5 @@ def bench_flash_attention(BATCH, H, N_CTX, HEAD_DIM, causal, warp_specialize, mo
 
 
 if __name__ == "__main__":
-    # only works on post-Ampere GPUs right now
+    # only works on Blackwell GPUs right now
     bench_flash_attention.run(print_data=True)

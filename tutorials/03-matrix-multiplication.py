@@ -158,3 +158,22 @@ if torch.allclose(cutile_output, torch_output, atol=1e-2, rtol=0):
     print("✅ cuTile and Torch match")
 else:
     print("❌ cuTile and Torch differ")
+
+
+TORCH_HAS_FP8 = hasattr(torch, "float8_e5m2")
+if TORCH_HAS_FP8:
+    torch.manual_seed(0)
+    a = torch.randn((512, 512), device=DEVICE, dtype=torch.float16)
+    b = torch.randn((512, 512), device=DEVICE, dtype=torch.float16)
+    a = a.to(torch.float8_e5m2)
+    # pre-transpose b for efficiency.
+    b = b.T
+    b = b.to(torch.float8_e5m2)
+    cutile_output = matmul(a, b)
+    torch_output = torch.matmul(a.to(torch.float16), b.to(torch.float16))
+    print(f"cutile_output_with_fp8_inputs={cutile_output}")
+    print(f"torch_output_with_fp8_inputs={torch_output}")
+    if torch.allclose(cutile_output, torch_output, atol=0.125, rtol=0):
+        print("✅ cuTile and Torch match")
+    else:
+        print("❌ cuTile and Torch differ")

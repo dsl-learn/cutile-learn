@@ -12,6 +12,12 @@
 
 Torch 2.9.1, Triton 3.5.1, cuTile(cuda-tile) 1.0.0, tileiras Cuda compilation tools, release 13.1, V13.1.80.
 
+### 5090 attention fwd
+
+data in [benchmark/5090/attn](benchmark/5090/attn)
+
+![5090 attention](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251206183251106-1611398145.png)
+
 ### 5090 matmul
 
 data in [benchmark/5090/matmul](benchmark/5090/matmul)

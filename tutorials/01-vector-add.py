@@ -83,5 +83,5 @@ output_torch = x + y
 output_cutile = add(x, y)
 print(output_torch)
 print(output_cutile)
-print(f'The maximum difference between torch and triton is '
+print(f'The maximum difference between torch and cutile is '
       f'{torch.max(torch.abs(output_torch - output_cutile))}')

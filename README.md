@@ -1,12 +1,12 @@
-## cuTile learning
+# cuTile learning
 
 ## Tutorials
 
-- [01-vector-add](./tutorials/01-vector-add.py)
+- [vector-add](./tutorials/01-vector-add.py)
 
-- [03-matmul](./tutorials/03-matrix-multiplication.py)
+- [matmul](./tutorials/03-matrix-multiplication.py)
 
-- [06-attention](./tutorials/06-fused-attention.py)
+- [attention](./tutorials/06-fused-attention.py)
 
 ## Benchmark
 

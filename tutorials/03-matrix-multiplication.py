@@ -158,3 +158,74 @@ if torch.allclose(cutile_output, torch_output, atol=1e-2, rtol=0):
     print("✅ cuTile and Torch match")
 else:
     print("❌ cuTile and Torch differ")
+
+
+TORCH_HAS_FP8 = hasattr(torch, "float8_e5m2")
+if TORCH_HAS_FP8:
+    torch.manual_seed(0)
+    a = torch.randn((512, 512), device=DEVICE, dtype=torch.float16)
+    b = torch.randn((512, 512), device=DEVICE, dtype=torch.float16)
+    a = a.to(torch.float8_e5m2)
+    # pre-transpose b for efficiency.
+    b = b.T
+    b = b.to(torch.float8_e5m2)
+    cutile_output = matmul(a, b)
+    torch_output = torch.matmul(a.to(torch.float16), b.to(torch.float16))
+    print(f"cutile_output_with_fp8_inputs={cutile_output}")
+    print(f"torch_output_with_fp8_inputs={torch_output}")
+    if torch.allclose(cutile_output, torch_output, atol=0.125, rtol=0):
+        print("✅ cuTile and Torch match")
+    else:
+        print("❌ cuTile and Torch differ")
+
+# %%
+# Benchmark
+# ---------
+#
+# Square Matrix Performance
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# We can now compare the performance of our kernel against that of cuBLAS. Here we focus on square matrices,
+# but feel free to arrange this script as you wish to benchmark any other matrix shape.
+
+ref_lib = 'cuBLAS'
+
+configs = []
+for fp8_inputs in [False, True]:
+    configs.append(
+        triton.testing.Benchmark(
+            x_names=["M", "N", "K"],  # Argument names to use as an x-axis for the plot
+            x_vals=[128 * i for i in range(2, 33)],  # Different possible values for `x_name`
+            line_arg="provider",  # Argument name whose value corresponds to a different line in the plot
+            # Possible values for `line_arg`
+            # Don't compare to cublas for fp8 cases as torch.matmul doesn't support fp8 at the moment.
+            line_vals=["cutile", "triton"] if fp8_inputs else [ref_lib.lower(), "cutile", "triton"],  # Label name for the lines
+            line_names=["cuTile", "Triton"] if fp8_inputs else [ref_lib, "cuTile", "Triton"],  # Line styles
+            styles=[("green", "-"), ("blue", "-"), ("yellow", "-")],
+            ylabel="TFLOPS",  # Label name for the y-axis
+            plot_name="matmul-performance-5090-" +
+            ("fp16" if not fp8_inputs else "fp8"),  # Name for the plot, used also as a file name for saving the plot.
+            args={"fp8_inputs": fp8_inputs},
+        ))
+
+from triton_kernels import matmul as triton_mutmul
+
+@triton.testing.perf_report(configs)
+def benchmark(M, N, K, provider, fp8_inputs):
+    a = torch.randn((M, K), device=DEVICE, dtype=torch.float16)
+    b = torch.randn((K, N), device=DEVICE, dtype=torch.float16)
+    if TORCH_HAS_FP8 and fp8_inputs:
+        a = a.to(torch.float8_e5m2)
+        b = b.T
+        b = b.to(torch.float8_e5m2)
+    quantiles = [0.5, 0.2, 0.8]
+    if provider == ref_lib.lower():
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: torch.matmul(a, b), quantiles=quantiles)
+    if provider == 'triton':
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: triton_mutmul(a, b), quantiles=quantiles)
+    if provider == 'cutile':
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: matmul(a, b), quantiles=quantiles)
+    perf = lambda ms: 2 * M * N * K * 1e-12 / (ms * 1e-3)
+    return perf(ms), perf(max_ms), perf(min_ms)
+
+benchmark.run(show_plots=True, print_data=True)

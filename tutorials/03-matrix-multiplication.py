@@ -177,3 +177,55 @@ if TORCH_HAS_FP8:
         print("✅ cuTile and Torch match")
     else:
         print("❌ cuTile and Torch differ")
+
+# %%
+# Benchmark
+# ---------
+#
+# Square Matrix Performance
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# We can now compare the performance of our kernel against that of cuBLAS. Here we focus on square matrices,
+# but feel free to arrange this script as you wish to benchmark any other matrix shape.
+
+ref_lib = 'cuBLAS'
+
+configs = []
+for fp8_inputs in [False, True]:
+    configs.append(
+        triton.testing.Benchmark(
+            x_names=["M", "N", "K"],  # Argument names to use as an x-axis for the plot
+            x_vals=[128 * i for i in range(2, 33)],  # Different possible values for `x_name`
+            line_arg="provider",  # Argument name whose value corresponds to a different line in the plot
+            # Possible values for `line_arg`
+            # Don't compare to cublas for fp8 cases as torch.matmul doesn't support fp8 at the moment.
+            line_vals=["cutile", "triton"] if fp8_inputs else [ref_lib.lower(), "cutile", "triton"],  # Label name for the lines
+            line_names=["cuTile", "Triton"] if fp8_inputs else [ref_lib, "cuTile", "Triton"],  # Line styles
+            styles=[("green", "-"), ("blue", "-"), ("yellow", "-")],
+            ylabel="TFLOPS",  # Label name for the y-axis
+            plot_name="matmul-performance-5090-" +
+            ("fp16" if not fp8_inputs else "fp8"),  # Name for the plot, used also as a file name for saving the plot.
+            args={"fp8_inputs": fp8_inputs},
+        ))
+
+from triton_kernels import matmul as triton_mutmul
+
+@triton.testing.perf_report(configs)
+def benchmark(M, N, K, provider, fp8_inputs):
+    a = torch.randn((M, K), device=DEVICE, dtype=torch.float16)
+    b = torch.randn((K, N), device=DEVICE, dtype=torch.float16)
+    if TORCH_HAS_FP8 and fp8_inputs:
+        a = a.to(torch.float8_e5m2)
+        b = b.T
+        b = b.to(torch.float8_e5m2)
+    quantiles = [0.5, 0.2, 0.8]
+    if provider == ref_lib.lower():
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: torch.matmul(a, b), quantiles=quantiles)
+    if provider == 'triton':
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: triton_mutmul(a, b), quantiles=quantiles)
+    if provider == 'cutile':
+        ms, min_ms, max_ms = triton.testing.do_bench(lambda: matmul(a, b), quantiles=quantiles)
+    perf = lambda ms: 2 * M * N * K * 1e-12 / (ms * 1e-3)
+    return perf(ms), perf(max_ms), perf(min_ms)
+
+benchmark.run(show_plots=True, print_data=True)

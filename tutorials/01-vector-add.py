@@ -55,7 +55,7 @@ def vec_add_kernel_1d(a, b, c, TILE: ConstInt):
 def add(x: torch.Tensor, y: torch.Tensor):
     # We need to preallocate the output.
     output = torch.empty_like(x)
-    assert x.device == DEVICE and y.device == DEVICE and output.device == DEVICE
+
     N = output.numel()
     # Heuristic for TILE size:
     # Choose a power of 2, up to 1024, that is greater than or equal to N.

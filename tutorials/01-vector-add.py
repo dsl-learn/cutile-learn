@@ -5,7 +5,7 @@ import torch
 import math
 import triton
 
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
+DEVICE = "cuda"
 
 
 # Define a type alias for Constant integers.

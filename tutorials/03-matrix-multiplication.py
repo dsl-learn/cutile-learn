@@ -5,7 +5,7 @@ import torch
 import math
 import triton
 
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
+DEVICE = "cuda"
 
 # Type aliases for constants
 ConstInt = ct.Constant[int]

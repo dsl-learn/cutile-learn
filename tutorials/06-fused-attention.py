@@ -24,7 +24,7 @@ ConstInt = ct.Constant[int]
 ConstBool = ct.Constant[bool]
 
 # --- FMHA Kernel Implementation ---
-@ct.kernel(occupancy=2)
+@ct.kernel()
 def fmha_kernel(Q, K, V, Out,
                 qk_scale: float,
                 input_pos: int,
@@ -149,7 +149,8 @@ def _fmha_autotune_configs():
     if gpu_capability in [(12, 0), (12, 1)]:
         # sm120, sm121
         configs = [
-            Config(TILE_M=64, TILE_N=64, num_ctas=1, occupancy=2),
+            Config(TILE_M=64, TILE_N=64, num_ctas=1, occupancy=1),
+            # Config(TILE_M=64, TILE_N=64, num_ctas=1, occupancy=2),
         ]
     else:
         # sm100 (Blackwell)
@@ -261,7 +262,7 @@ def reference_fmha(
 
 import triton
 
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
+DEVICE = "cuda"
 
 BATCH, H, N_CTX, HEAD_DIM = 4, 48, 1024, 128
 dtype = torch.float16
@@ -386,5 +387,5 @@ def bench_flash_attention(BATCH, H, N_CTX, HEAD_DIM, causal, warp_specialize, mo
 
 
 if __name__ == "__main__":
-    # only works on Blackwell GPUs right now
-    bench_flash_attention.run(print_data=True)
+    # only works on Blackwl GPUs right now
+    bench_flash_attention.run(print_data=True, save_path="benchmark/5090/attn_comp")

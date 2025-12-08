@@ -3,9 +3,8 @@ import torch
 import cuda.tile as ct
 import torch
 import math
-import triton
 
-DEVICE = "cuda"
+DEVICE = torch.cuda.current_device()
 
 # Type aliases for constants
 ConstInt = ct.Constant[int]
@@ -178,6 +177,7 @@ if TORCH_HAS_FP8:
     else:
         print("❌ cuTile and Torch differ")
 
+import triton
 # %%
 # Benchmark
 # ---------

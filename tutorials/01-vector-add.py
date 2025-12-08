@@ -3,9 +3,8 @@ import torch
 import cuda.tile as ct
 import torch
 import math
-import triton
 
-DEVICE = "cuda"
+DEVICE = torch.cuda.current_device()
 
 
 # Define a type alias for Constant integers.

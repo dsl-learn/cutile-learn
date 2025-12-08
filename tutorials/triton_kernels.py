@@ -1,3 +1,5 @@
+# copy from https://github.com/triton-lang/triton/blob/main/python/tutorials
+
 import torch
 
 import triton

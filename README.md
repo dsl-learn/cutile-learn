@@ -10,6 +10,8 @@
 
 - [Low-Memory Dropout](./tutorials/04-low-memory-dropout.py)
 
+- [Layer Normalization](./tutorials/05-layer-norm.py)
+
 - [Fused Attention](./tutorials/06-fused-attention.py)
 
 ## Benchmark
@@ -29,6 +31,10 @@ data in [benchmark/5090/attn](benchmark/5090/attn)
 data in [benchmark/5090/softmax](benchmark/5090/softmax)
 
 ![softmax-performance](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251208211339603-939997130.png)
+
+### 5090 layer normal
+
+![5090-layer-norm](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251209070554480-125494017.png)
 
 ### 5090 matmul
 

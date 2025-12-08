@@ -35,10 +35,10 @@ N = 98432
 x = torch.randn(size=(N, ), device=DEVICE)
 # Dropout mask
 p = 0.5
-x_keep = (torch.rand(size=(N, ), device=DEVICE) > p).to(torch.bool)
+x_keep = torch.rand(size=(N, ), device=DEVICE) > p
 cutile_output = dropout(x, x_keep=x_keep, p=p)
 
-torch_output = torch.where(x_keep.bool(), x / (1 - p), torch.zeros_like(x))
+torch_output = torch.where(x_keep, x / (1 - p), torch.zeros_like(x))
 
 if torch.allclose(cutile_output, torch_output, atol=1e-2, rtol=0):
     print("✅ cuTile and Torch match")

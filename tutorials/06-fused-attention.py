@@ -3,19 +3,12 @@
 # SPDX-License-Identifier: MIT
 
 import math
-
 import cuda.tile as ct
-import numpy as np
 import torch
 
 from cuda.tile import RoundingMode as RMd
 
-
-from typing import Optional
-from typing import Dict
-from typing import Any
-
-# logger = get_logger(__name__)
+DEVICE = torch.cuda.current_device()
 
 INV_LOG_2 = 1.0 / math.log(2)
 
@@ -24,7 +17,7 @@ ConstInt = ct.Constant[int]
 ConstBool = ct.Constant[bool]
 
 # --- FMHA Kernel Implementation ---
-@ct.kernel(occupancy=2)
+@ct.kernel()
 def fmha_kernel(Q, K, V, Out,
                 qk_scale: float,
                 input_pos: int,
@@ -258,11 +251,6 @@ def reference_fmha(
         q, k, v, attn_mask=None, dropout_p=0.0, is_causal=is_causal, scale=scaling
     )
 
-
-import triton
-
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
-
 BATCH, H, N_CTX, HEAD_DIM = 4, 48, 1024, 128
 dtype = torch.float16
 q = torch.randn((BATCH, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
@@ -275,6 +263,8 @@ if torch.allclose(cutile_output, torch_output, atol=1e-2, rtol=0):
     print("✅ cuTile and Torch match")
 else:
     print("❌ cuTile and Torch differ")
+
+import triton
 
 try:
     from flash_attn.flash_attn_interface import \
@@ -386,5 +376,5 @@ def bench_flash_attention(BATCH, H, N_CTX, HEAD_DIM, causal, warp_specialize, mo
 
 
 if __name__ == "__main__":
-    # only works on Blackwell GPUs right now
-    bench_flash_attention.run(print_data=True)
+    # only works on Blackwl GPUs right now
+    bench_flash_attention.run(show_plots=True, print_data=True)

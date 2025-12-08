@@ -4,8 +4,6 @@ import triton
 import triton.language as tl
 from triton.tools.tensor_descriptor import TensorDescriptor
 
-DEVICE = triton.runtime.driver.active.get_active_torch_device()
-
 
 def is_cuda():
     return triton.runtime.driver.active.get_current_target().backend == "cuda"

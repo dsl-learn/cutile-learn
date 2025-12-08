@@ -24,6 +24,12 @@ data in [benchmark/5090/matmul](benchmark/5090/matmul)
 
 ![5090 matmul](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251206182733009-1896350291.png)
 
+## My Zhihu article
+
+[如何评价 cuTile? —— BobHuang的回答](https://www.zhihu.com/question/1980278886894957587/answer/1980592292936062307)
+
+[浅析cuTile执行流程](https://zhuanlan.zhihu.com/p/1981136316507890723)
+
 ## Documents
 
 - [cuTile documents](https://docs.nvidia.com/cuda/cutile-python)

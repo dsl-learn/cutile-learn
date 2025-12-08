@@ -58,5 +58,5 @@ print(tabulate.tabulate([
 ]))
 
 # Triton provides tl.rand and has seeded_dropout. We need to implement similar functions
-# as defined in Triton Language random:
+# as defined in Triton Language random based on the Philox algorithm:
 # https://github.com/triton-lang/triton/blob/main/python/triton/language/random.py

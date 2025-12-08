@@ -18,17 +18,13 @@
 
 All benchmarks were run with Torch 2.9.1, Triton 3.5.1, cuTile (cuda-tile) 1.0.0, and tileiras, using CUDA compilation tools 13.1 (V13.1.80).
 
-Currently, I only have results from an RTX 5090 (sm_120). Contributions from Blackwell B200 (sm_100) users are very welcome!
+Currently, I only have results from an RTX 5090 (sm_120), data in [benchmark/5090](benchmark/5090). Contributions from Blackwell B200 (sm_100) users are very welcome!
 
 ### 5090 attention fwd
-
-data in [benchmark/5090/attn](benchmark/5090/attn)
 
 ![5090 attention](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251206183251106-1611398145.png)
 
 ### 5090 softmax
-
-data in [benchmark/5090/softmax](benchmark/5090/softmax)
 
 ![softmax-performance](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251208211339603-939997130.png)
 
@@ -37,8 +33,6 @@ data in [benchmark/5090/softmax](benchmark/5090/softmax)
 ![5090-layer-norm](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251209070554480-125494017.png)
 
 ### 5090 matmul
-
-data in [benchmark/5090/matmul](benchmark/5090/matmul)
 
 ![5090 matmul](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251206182733009-1896350291.png)
 

@@ -2,21 +2,31 @@
 
 ## Tutorials
 
-- [vector-add](./tutorials/01-vector-add.py)
+- [Vector Addition](./tutorials/01-vector-add.py)
 
-- [matmul](./tutorials/03-matrix-multiplication.py)
+- [Fused Softmax](./tutorials/02-fused-softmax.py)
 
-- [attention](./tutorials/06-fused-attention.py)
+- [Matrix Multiplication](./tutorials/03-matrix-multiplication.py)
+
+- [Fused Attention](./tutorials/06-fused-attention.py)
 
 ## Benchmark
 
-Torch 2.9.1, Triton 3.5.1, cuTile(cuda-tile) 1.0.0, tileiras Cuda compilation tools, release 13.1, V13.1.80.
+All benchmarks were run with Torch 2.9.1, Triton 3.5.1, cuTile (cuda-tile) 1.0.0, and tileiras, using CUDA compilation tools 13.1 (V13.1.80).
+
+Currently, I only have results from an RTX 5090 (sm_120). Contributions from Blackwell B200 (sm_100) users are very welcome!
 
 ### 5090 attention fwd
 
 data in [benchmark/5090/attn](benchmark/5090/attn)
 
 ![5090 attention](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251206183251106-1611398145.png)
+
+### 5090 softmax
+
+data in [benchmark/5090/softmax](benchmark/5090/softmax)
+
+![softmax-performance](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251208211339603-939997130.png)
 
 ### 5090 matmul
 

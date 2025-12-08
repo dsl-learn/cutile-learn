@@ -1,6 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-#
-# SPDX-License-Identifier: MIT
+# copy from https://github.com/NVIDIA/TileGym/blob/main/src/tilegym/backend/cutile/autotuner.py
 
 from __future__ import annotations
 

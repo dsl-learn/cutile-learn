@@ -2,11 +2,13 @@
 
 ## Tutorials
 
-- [vector-add](./tutorials/01-vector-add.py)
+- [Vector Addition](./tutorials/01-vector-add.py)
 
-- [matmul](./tutorials/03-matrix-multiplication.py)
+- [Fused Softmax](./tutorials/02-fused-softmax.py)
 
-- [attention](./tutorials/06-fused-attention.py)
+- [Matrix Multiplication](./tutorials/03-matrix-multiplication.py)
+
+- [Fused Attention](./tutorials/06-fused-attention.py)
 
 ## Benchmark
 

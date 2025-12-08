@@ -9,7 +9,6 @@ import math
 # This helps in clearly indicating that certain kernel parameters are compile-time constants.
 ConstInt = ct.Constant[int]
 
-
 # --- Kernel 1: 1D Tiled Vector Add (Direct Load/Store) ---
 @ct.kernel
 def vec_add_kernel_1d(a, b, c, TILE: ConstInt):

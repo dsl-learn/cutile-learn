@@ -2,13 +2,11 @@
 #
 # SPDX-License-Identifier: MIT
 
-import math
-import cuda.tile as ct
+
 import torch
-
+import cuda.tile as ct
 from cuda.tile import RoundingMode as RMd
-
-DEVICE = torch.cuda.current_device()
+import math
 
 INV_LOG_2 = 1.0 / math.log(2)
 
@@ -130,6 +128,7 @@ def fmha_kernel(Q, K, V, Out,
 
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from autotuner import Autotuner, Config, autotune
 
@@ -151,7 +150,6 @@ def _fmha_autotune_configs():
             Config(TILE_M=128, TILE_N=128, num_ctas=1, occupancy=2),
         ]
     return configs
-
 
 
 @autotune(search_space=_fmha_autotune_configs())
@@ -251,6 +249,9 @@ def reference_fmha(
         q, k, v, attn_mask=None, dropout_p=0.0, is_causal=is_causal, scale=scaling
     )
 
+
+DEVICE = torch.cuda.current_device()
+
 BATCH, H, N_CTX, HEAD_DIM = 4, 48, 1024, 128
 dtype = torch.float16
 q = torch.randn((BATCH, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
@@ -273,15 +274,15 @@ try:
 except BaseException:
     HAS_FLASH = False
 
-from triton_kernels import is_blackwell, is_hopper
+from triton_kernels import is_blackwell, is_rtx_blackwell, is_hopper
 
 TORCH_HAS_FP8 = hasattr(torch, 'float8_e5m2')
 
-if is_blackwell():
-    BATCH, N_HEADS = 4, 32
-else:
-    # RTX s5090 only has 32G Memory
+if is_rtx_blackwell():
+    # RTX 5090 only has 32G Memory
     BATCH, N_HEADS = 1, 4
+else:
+    BATCH, N_HEADS = 4, 32
 
 # vary seq length for fixed head and batch=4
 configs = []

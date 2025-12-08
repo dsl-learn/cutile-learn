@@ -189,6 +189,9 @@ def supports_host_descriptor():
 def is_blackwell():
     return torch.cuda.get_device_capability()[0] == 10
 
+def is_rtx_blackwell():
+    return torch.cuda.get_device_capability()[0] == 12
+
 def is_hopper():
     return torch.cuda.get_device_capability()[0] == 9
 

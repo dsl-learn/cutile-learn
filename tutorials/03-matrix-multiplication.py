@@ -1,10 +1,7 @@
 import torch
-
 import cuda.tile as ct
-import torch
 import math
 
-DEVICE = torch.cuda.current_device()
 
 # Type aliases for constants
 ConstInt = ct.Constant[int]
@@ -94,6 +91,7 @@ def matmul_kernel(A, B, C,
 
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from autotuner import Autotuner, Config, autotune
 
@@ -138,6 +136,8 @@ def matmul(a, b, autotuner: Autotuner | None = None):
         args_fn=lambda cfg: (a, b, c, cfg.TILE_SIZE_M, cfg.TILE_SIZE_N, cfg.TILE_SIZE_K),
     )
     return c
+
+DEVICE = torch.cuda.current_device()
 
 # %%
 # Unit Test

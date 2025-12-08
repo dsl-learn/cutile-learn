@@ -142,8 +142,7 @@ def _fmha_autotune_configs():
     if gpu_capability in [(12, 0), (12, 1)]:
         # sm120, sm121
         configs = [
-            Config(TILE_M=64, TILE_N=64, num_ctas=1, occupancy=1),
-            # Config(TILE_M=64, TILE_N=64, num_ctas=1, occupancy=2),
+            Config(TILE_M=64, TILE_N=64, num_ctas=1, occupancy=2),
         ]
     else:
         # sm100 (Blackwell)

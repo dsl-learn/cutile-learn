@@ -8,6 +8,8 @@
 
 - [Matrix Multiplication](./tutorials/03-matrix-multiplication.py)
 
+- [Low-Memory Dropout](./tutorials/04-low-memory-dropout.py)
+
 - [Fused Attention](./tutorials/06-fused-attention.py)
 
 ## Benchmark

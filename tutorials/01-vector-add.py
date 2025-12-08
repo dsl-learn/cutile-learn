@@ -1,10 +1,8 @@
-import torch
+# copy from https://github.com/NVIDIA/cutile-python/blob/main/samples/VectorAddition.py
 
+import torch
 import cuda.tile as ct
-import torch
 import math
-
-DEVICE = torch.cuda.current_device()
 
 
 # Define a type alias for Constant integers.
@@ -70,6 +68,7 @@ def add(x: torch.Tensor, y: torch.Tensor):
     ct.launch(torch.cuda.current_stream(), grid, vec_add_kernel_1d, (x, y, output, TILE))
     return output
 
+DEVICE = torch.cuda.current_device()
 
 # %%
 # We can now use the above function to compute the element-wise sum of two `torch.tensor` objects and test its correctness:

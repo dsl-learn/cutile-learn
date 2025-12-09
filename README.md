@@ -24,7 +24,7 @@ Currently, I only have results from an RTX 5090 (sm_120), data in [benchmark/509
 
 ### 5090 Transformers Inference
 
-Profile data in [profile-data repository](https://github.com/dsl-learn/profile-data/tree/main/cutile/attn-5090)
+use [NVIDIA/TileGym/tree/main/modeling/transformers](https://github.com/NVIDIA/TileGym/tree/main/modeling/transformers) and profile data in [profile-data repository](https://github.com/dsl-learn/profile-data/tree/main/cutile/attn-5090)
 
 ![Transformers Inference](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251210074616888-1437087029.png)
 

@@ -14,6 +14,8 @@
 
 - [Fused Attention](./tutorials/06-fused-attention.py)
 
+- [Rotary Positional Embedding](./tutorials/07-rotary_emb.py)
+
 ## Benchmark
 
 All benchmarks were run with Torch 2.9.1, Triton 3.5.1, cuTile (cuda-tile) 1.0.0, and tileiras, using CUDA compilation tools 13.1 (V13.1.80).

@@ -22,6 +22,13 @@ All benchmarks were run with Torch 2.9.1, Triton 3.5.1, cuTile (cuda-tile) 1.0.0
 
 Currently, I only have results from an RTX 5090 (sm_120), data in [benchmark/5090](benchmark/5090). Contributions from Blackwell B200 (sm_100) users are very welcome!
 
+### 5090 Transformers Inference
+
+Profile data in [profile-data repository](https://github.com/dsl-learn/profile-data/tree/main/cutile/attn-5090)
+
+![Transformers Inference](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251210074616888-1437087029.png)
+
+
 ### 5090 attention fwd
 
 ![5090 attention](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251206183251106-1611398145.png)

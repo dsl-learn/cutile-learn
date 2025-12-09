@@ -34,7 +34,7 @@ use [NVIDIA/TileGym/tree/main/modeling/transformers](https://github.com/NVIDIA/T
 
 ### 5090 softmax
 
-![softmax-performance](https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251208211339603-939997130.png)
+<img src="https://img2024.cnblogs.com/blog/1154439/202512/1154439-20251208211339603-939997130.png" alt="softmax-performance" width="70%">
 
 ### 5090 layer normal
 

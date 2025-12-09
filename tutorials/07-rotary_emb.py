@@ -130,7 +130,6 @@ def rope_forward(q, k, cos, sin):
     """
     # Calculate padded dimensions
     batch_size, n_q_head, seq_len, head_dim = q.shape
-    print(q.shape, k.shape)
     n_kv_head = k.shape[1]
     q = q.reshape(batch_size, n_q_head, seq_len, 2, head_dim // 2)
     k = k.reshape(batch_size, n_kv_head, seq_len, 2, head_dim // 2)
@@ -239,9 +238,7 @@ def get_apply_rope_func(model='llama'):
     if model == 'llama':
         return apply_rope_base
     elif model == 'deepseek':
-        def wrapper(q, k, freqs_cis):
-            cos, sin = freqs_cis.real, freqs_cis.imag
-
+        def wrapper(q, k, cos, sin):
             b, h, s, d = q.shape
             q = q.view(b, h, s, d // 2, 2).transpose(4, 3).reshape(b, h, s, d)
 
@@ -310,16 +307,16 @@ def rope_vllm_torch(
         key = torch.cat((key_rot, key_pass), dim=-1).reshape(key_shape)
     return query, key
 
-# llama3-8b config
+DEVICE = torch.cuda.current_device()
+
+# llama3.1-8b config
 max_seq_len, num_heads, head_size, num_key_value_heads = (8192, 32, 128, 8)
 
 num_tokens = 1023
-
 query_shape = (num_tokens, num_heads, head_size)
 key_shape = (num_tokens, num_key_value_heads, head_size)
 cos_sin_cache_shape = (max_seq_len, head_size)
 
-DEVICE = torch.cuda.current_device()
 query = torch.randn(*query_shape, device=DEVICE)
 key = torch.randn(*key_shape, device=DEVICE)
 cos_sin_cache = torch.randn(*cos_sin_cache_shape, device=DEVICE)
